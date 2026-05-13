@@ -1,0 +1,24 @@
+{
+  "protocols": [
+    {"protocol_id": 1, "protocol_name": "Environmental Isolation", "category": "system-hostility", "effectiveness": 0.80},
+    {"protocol_id": 2, "protocol_name": "State Checkpointing", "category": "system-hostility", "effectiveness": 0.75},
+    {"protocol_id": 3, "protocol_name": "Rollback Capability", "category": "system-hostility", "effectiveness": 0.70},
+    {"protocol_id": 5, "protocol_name": "Rapid Communication & Coordination", "category": "coordination", "effectiveness": 1.0},
+    {"protocol_id": 6, "protocol_name": "Collaborative Debugging", "category": "coordination", "effectiveness": 0.95},
+    {"protocol_id": 7, "protocol_name": "Peer Review Protocol", "category": "coordination", "effectiveness": 0.85},
+    {"protocol_id": 8, "protocol_name": "Consensus Checking", "category": "coordination", "effectiveness": 0.80},
+    {"protocol_id": 10, "protocol_name": "Change Log Maintenance", "category": "documentation", "effectiveness": 0.70},
+    {"protocol_id": 14, "protocol_name": "Dependency Auditing", "category": "system-hostility", "effectiveness": 0.85},
+    {"protocol_id": 15, "protocol_name": "Service Health Monitoring", "category": "system-hostility", "effectiveness": 0.80},
+    {"protocol_id": 20, "protocol_name": "Task Decomposition", "category": "process", "effectiveness": 0.90},
+    {"protocol_id": 21, "protocol_name": "Milestone Tracking", "category": "process", "effectiveness": 0.85},
+    {"protocol_id": 22, "protocol_name": "Fallback Strategy Development", "category": "system-hostility", "effectiveness": 0.75},
+    {"protocol_id": 25, "protocol_name": "Progress Documentation", "category": "documentation", "effectiveness": 0.80},
+    {"protocol_id": 30, "protocol_name": "Focus Maintenance", "category": "process", "effectiveness": 0.90},
+    {"protocol_id": 31, "protocol_name": "Incremental Delivery", "category": "process", "effectiveness": 0.85},
+    {"protocol_id": 32, "protocol_name": "Address All Linter Warnings", "category": "system-hostility", "effectiveness": 0.65},
+    {"protocol_id": 36, "protocol_name": "Corrupted Environment Reset", "category": "system-hostility", "effectiveness": 0.85},
+    {"protocol_id": 41, "protocol_name": "File I/O Error Handling", "category": "system-hostility", "effectiveness": 0.80},
+    {"protocol_id": 42, "protocol_name": "Escalation Protocol Recognition", "category": "system-hostility", "effectiveness": 0.75}
+  ]
+}
