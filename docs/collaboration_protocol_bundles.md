@@ -193,3 +193,15 @@ These metrics can be added as a new JSON structure (e.g., `data/collaboration_ru
 - **PR Drift & Safety Signals** — many subtle coordination risks during review. The `Agreement_Disagreement_Matrix` and `Degradation Guard` aim directly at the drift/signal problems, especially for long-running PRs.
 
 As more runs are executed under these protocols, their effectiveness can be logged as new incidents and folded into the dashboard’s maturity and effectiveness metrics.
+
+### 5.1 Dashboard wiring (optional)
+
+In this repository the natural home for collaboration telemetry is a new file such as `data/collaboration_runs.json`,
+with one record per experiment run (including role-level metrics like degradation index, critique reliability, and time spent).
+Once such a file exists, the existing `dashboard/visualization_data.js` layer can:
+
+- Treat collaboration setups as an additional pattern category (for example, `collaboration_pipelines`) in the heatmap and time series, or
+- Render a dedicated panel comparing **solo vs. pipeline** performance under different protocol bundles.
+
+Nothing in the current dashboard depends on this file, so collaboration experiments can iterate independently and be plugged in once the schema stabilizes.
+
