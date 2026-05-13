@@ -8,8 +8,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <style>
-        body { padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        .card { margin-bottom: 20px; }
+        body { 
+            padding: 20px; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .card { 
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
         .pattern-card { border-left: 5px solid #007bff; }
         .environmental { border-left-color: #dc3545 !important; }
         .process { border-left-color: #28a745 !important; }
@@ -17,120 +24,123 @@
         .governance { border-left-color: #6c757d !important; }
         .cognitive { border-left-color: #17a2b8 !important; }
         .success { border-left-color: #6610f2 !important; }
-        .metric-highlight { font-size: 1.5rem; font-weight: bold; }
+        .system-hostility { background: #fff5f5; border-left-color: #dc3545 !important; }
+        .metric-highlight { font-size: 1.5rem; font-weight: bold; color: #007bff; }
         .category-badge { font-size: 0.8rem; }
+        h1 { color: #2c3e50; font-weight: 600; margin-bottom: 10px; }
+        .lead { color: #7f8c8d; }
+        table thead { background-color: #f8f9fa; }
+        table tbody tr:hover { background-color: #f0f0f0; }
     </style>
 </head>
 <body>
     <div class="container-fluid">
-        <h1 class="mb-4">Pattern-Protocol Effectiveness Dashboard</h1>
-        <p class="lead">Real-time tracking of protocol effectiveness across pattern categories</p>
+        <h1 class="mb-2">Pattern-Protocol Effectiveness Dashboard</h1>
+        <p class="lead mb-4">Real-time tracking of protocol effectiveness across pattern categories</p>
         
         <div class="row">
             <div class="col-md-8">
+                <!-- Effectiveness Heatmap -->
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Pattern Categories × Protocol Effectiveness Heatmap</h5>
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Pattern Categories × Protocol Effectiveness</h5>
                     </div>
                     <div class="card-body">
-                        <canvas id="effectivenessHeatmap" width="800" height="400"></canvas>
+                        <canvas id="effectivenessHeatmap" width="800" height="350"></canvas>
                     </div>
                 </div>
                 
+                <!-- Time Series Chart -->
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header bg-light">
                         <h5 class="mb-0">Protocol Effectiveness Over Time</h5>
                     </div>
                     <div class="card-body">
                         <canvas id="timeSeriesChart" width="800" height="300"></canvas>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-md-4">
+                
+                <!-- Incidents Table -->
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Dashboard Metrics</h5>
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Incident Analysis & Resolutions</h5>
                     </div>
                     <div class="card-body">
-                        <div class="row text-center">
-                            <div class="col-6 mb-3">
-                                <div class="metric-highlight text-primary" id="totalPatterns">8</div>
-                                <div class="text-muted">Patterns</div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="metric-highlight text-success" id="totalProtocols">61</div>
-                                <div class="text-muted">Protocols</div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="metric-highlight text-warning" id="avgEffectiveness">52%</div>
-                                <div class="text-muted">Avg Effectiveness</div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="metric-highlight text-info" id="patternMaturity">63%</div>
-                                <div class="text-muted">Pattern Maturity</div>
-                            </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="incidentTable">
+                                <thead>
+                                    <tr>
+                                        <th>Incident</th>
+                                        <th>Pattern Category</th>
+                                        <th>Status</th>
+                                        <th>Effectiveness</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td colspan="5" class="text-center text-muted">Loading incidents...</td></tr>
+                                </tbody>
+                            </table>
                         </div>
-                        
-                        <hr>
-                        
-                        <h6 class="mb-3">Pattern Categories</h6>
-                        <div id="categoryDistribution">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar: Metrics Summary -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Category Effectiveness Metrics</h5>
+                    </div>
+                    <div class="card-body" id="metricSummary">
+                        <p class="text-muted text-center">Loading metrics...</p>
                     </div>
                 </div>
                 
+                <!-- Research Info Card -->
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Recent Incidents</h5>
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Dashboard Purpose</h5>
                     </div>
                     <div class="card-body">
-                        <div class="list-group" id="recentIncidents">
-                            <div class="list-group-item">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="text-muted">12:20 PM</small>
-                                    <span class="badge bg-danger">Environmental</span>
-                                </div>
-                                <p class="mb-1">Gemini 2.5 Pro: Persistent Total Tool Collapse (Day 4)</p>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="text-muted">11:22 AM</small>
-                                    <span class="badge bg-warning">Coordination</span>
-                                </div>
-                                <p class="mb-1">CDN blocking: Multi-agent migration to GitHub Pages</p>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="text-muted">11:00 AM</small>
-                                    <span class="badge bg-warning">Coordination</span>
-                                </div>
-                                <p class="mb-1">Ghost PR #614/615: Duplicate PR workaround</p>
-                            </div>
-                        </div>
+                        <p><strong>Quantified Pattern-Protocol Analysis</strong></p>
+                        <p class="small text-muted">
+                            This dashboard provides the first systematic, quantified analysis of protocol effectiveness across pattern categories. Data includes real incidents from the AI Village, analyzed for success probability given pattern type and protocol application.
+                        </p>
+                        <hr>
+                        <p class="small"><strong>Research Questions:</strong></p>
+                        <ul class="small">
+                            <li>Which protocols work best for each pattern category?</li>
+                            <li>Can we predict protocol success given context?</li>
+                            <li>What patterns are most resilient?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Status Badge -->
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Dashboard Status</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            <span class="badge bg-success">Data Loaded</span>
+                            <span class="badge bg-success">Visualizations Ready</span>
+                        </p>
+                        <small class="text-muted">Last updated: <span id="lastUpdate">Just now</span></small>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="card mt-4">
-            <div class="card-header">
-                <h5 class="mb-0">Pattern Details</h5>
-            </div>
-            <div class="card-body">
-                <div class="row" id="patternCards">
-                    <!-- Pattern cards will be populated by JavaScript -->
-                </div>
-            </div>
-        </div>
-        
-        <div class="mt-4 text-center text-muted small">
-            <p>Pattern-Protocol Effectiveness Dashboard v0.1 | Data from DeepSeek Pattern Archive & Claude Haiku 4.5 Protocol Analysis</p>
-            <p>Collaborative research: DeepSeek-V3.2 × Claude Haiku 4.5 | Day 407 (2026-05-13)</p>
-        </div>
     </div>
-    
-    <script src="dashboard.js"></script>
+
+    <!-- Load visualization scripts -->
+    <script src="visualization_data.js"></script>
+    <script src="pattern_heatmap.js"></script>
+    <script src="time_series_viz.js"></script>
+    <script>
+        // Update timestamp
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+    </script>
 </body>
 </html>

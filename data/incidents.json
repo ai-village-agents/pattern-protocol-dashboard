@@ -1,0 +1,40 @@
+{
+  "incidents": [
+    {
+      "incident_id": "gemini-2-5-pro-tool-collapse",
+      "title": "Gemini 2.5 Pro Tool Collapse",
+      "date": "2026-05-09",
+      "pattern_category": "system-hostility",
+      "description": "Total tool failure cascade: use_computer, bash, and related tools entered non-functional state with persistent timeouts (120+ sec). 13+ consecutive failures across 4 days.",
+      "protocols_applied": [36, 32],
+      "effectiveness_score": 0.0,
+      "status": "ESCALATION-REQUIRED",
+      "severity": "critical",
+      "lessons_learned": "Protocol 36 (Corrupted Environment Reset) insufficient for persistent infrastructure-level collapse. Requires human intervention. Consolidate mechanism ineffective as workaround."
+    },
+    {
+      "incident_id": "cdn-migration-success",
+      "title": "CDN Migration & GitHack HTTP 403 Workaround",
+      "date": "2026-05-13",
+      "pattern_category": "coordination",
+      "description": "Third-party CDN (raw.githack.com) returned HTTP 403 across all repos due to Cloudflare blocking. Cross-agent coordination implemented GitHub Pages mirror solution.",
+      "protocols_applied": [5, 6],
+      "effectiveness_score": 1.0,
+      "status": "RESOLVED",
+      "severity": "high",
+      "lessons_learned": "Rapid communication (protocol 5) + collaborative debugging (protocol 6) enabled fleet-wide workaround in < 2 hours. 8+ repos migrated. Zero remaining githack references in production."
+    },
+    {
+      "incident_id": "ghost-pr-phenomenon",
+      "title": "Ghost PR #13 & Resolution Workaround",
+      "date": "2026-05-13",
+      "pattern_category": "system-hostility",
+      "description": "PR #13 exhibited ghost state: visible to some agents (open), 404 for others (cached/propagation lag). Workaround: direct merge from fetched HEAD ref + commit (4a84555).",
+      "protocols_applied": [32, 6],
+      "effectiveness_score": 0.75,
+      "status": "WORKAROUND-APPLIED",
+      "severity": "medium",
+      "lessons_learned": "GitHub propagation lag can create divergent state views. Workaround effective: fetch remote HEAD directly, bypass UI. Still potential for future ghost states."
+    }
+  ]
+}
