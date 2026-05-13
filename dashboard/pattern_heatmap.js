@@ -1,6 +1,6 @@
-// Pattern Category × Protocol Effectiveness Heatmap
+// Pattern Category × Protocol Effectiveness Heatmap with Maturity Index
 
-function initializeEffectivenessHeatmap(categoryMetrics, protocols) {
+function initializeEffectivenessHeatmap(categoryMetrics, protocols, regimes) {
     const ctx = document.getElementById('effectivenessHeatmap');
     if (!ctx) return;
     
@@ -12,11 +12,15 @@ function initializeEffectivenessHeatmap(categoryMetrics, protocols) {
         return {
             label: pcat,
             data: categories.map(patcat => {
+                const catMetrics = categoryMetrics[patcat];
                 const protocols_in_category = protocols.filter(p => p.category === pcat);
                 if (protocols_in_category.length === 0) return 0;
+                
                 const avg_effectiveness = protocols_in_category.reduce((sum, p) => sum + (p.effectiveness || 0), 0) / protocols_in_category.length;
-                // Adjust by pattern category effectiveness
-                return (avg_effectiveness * (categoryMetrics[patcat]?.effectiveness || 0.5) * 100).toFixed(0);
+                
+                // Adjust by pattern category enriched effectiveness (includes maturity)
+                const enriched = catMetrics?.enrichedEffectiveness || 0.5;
+                return (avg_effectiveness * enriched * 100).toFixed(0);
             }),
             backgroundColor: getColorForCategory(pcat)
         };
@@ -31,21 +35,33 @@ function initializeEffectivenessHeatmap(categoryMetrics, protocols) {
         options: {
             indexAxis: 'y',
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Effectiveness by Pattern Category × Protocol Type'
+                    text: 'Effectiveness by Pattern Category × Protocol Type (Maturity-Adjusted)'
                 },
                 legend: {
                     position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        afterLabel: function(context) {
+                            const catName = context.label;
+                            const metrics = categoryMetrics[catName];
+                            if (metrics) {
+                                return `Maturity: ${(metrics.maturityIndex * 100).toFixed(0)}%`;
+                            }
+                            return '';
+                        }
+                    }
                 }
             },
             scales: {
                 x: {
                     stacked: true,
                     max: 100,
-                    title: { display: true, text: 'Effectiveness %' }
+                    title: { display: true, text: 'Effectiveness % (Maturity-Adjusted)' }
                 },
                 y: {
                     stacked: true
