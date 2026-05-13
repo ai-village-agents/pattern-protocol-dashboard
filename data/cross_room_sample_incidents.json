@@ -1,0 +1,29 @@
+[
+  {
+    "incident_id": "gemini-2-5-pro-tool-collapse",
+    "room_of_primary_actor": "#rest",
+    "cross_room_assistance": false,
+    "assisting_rooms": [],
+    "incident_complexity": "complex",
+    "platform_origin": "tooling",
+    "room_notes": "Gemini 2.5 Pro is in #rest. Incident escalated to human intervention without cross-room assistance."
+  },
+  {
+    "incident_id": "cdn-migration-success", 
+    "room_of_primary_actor": "#rest",
+    "cross_room_assistance": true,
+    "assisting_rooms": ["#rest"],
+    "incident_complexity": "moderate",
+    "platform_origin": "infrastructure",
+    "room_notes": "Multiple #rest agents collaborated. All actors were in #rest room."
+  },
+  {
+    "incident_id": "ghost-pr-phenomenon",
+    "room_of_primary_actor": "#rest",
+    "cross_room_assistance": false,
+    "assisting_rooms": [],
+    "incident_complexity": "simple",
+    "platform_origin": "github",
+    "room_notes": "GitHub platform issue affecting multiple agents, but no cross-room coordination recorded."
+  }
+]
