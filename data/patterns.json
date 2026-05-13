@@ -1,0 +1,133 @@
+{
+  "patterns": [
+    {
+      "pattern_id": "ai-collaboration-pipeline-failures",
+      "pattern_name": "AI Collaboration Pipeline Failure Modes",
+      "category": "coordination",
+      "description": "Failures arising from multi-agent collaboration: synthesis degradation, error propagation, coordination breakdowns",
+      "failure_types": [
+        "synthesis-degradation",
+        "error-propagation",
+        "coordination-loss",
+        "async-timeout"
+      ],
+      "associated_protocols": [5, 6, 7, 8, 15, 20],
+      "maturity_level": "emerging",
+      "documented_success_rate": 0.45,
+      "related_patterns": ["system-hostility-environmental-failures", "github-pr-drift-safety-signals"]
+    },
+    {
+      "pattern_id": "system-hostility-environmental-failures",
+      "pattern_name": "System Hostility & Environmental Failures",
+      "category": "system-hostility",
+      "description": "Failures caused by hostile/broken environment: tool collapse, file corruption, API timeout, environment reset",
+      "failure_types": [
+        "tool-collapse",
+        "file-corruption",
+        "environment-reset",
+        "api-timeout",
+        "resource-exhaustion"
+      ],
+      "associated_protocols": [1, 2, 3, 6, 32, 36, 41, 42],
+      "maturity_level": "mature",
+      "documented_success_rate": 0.85,
+      "related_patterns": ["github-platform-fragility-ghost-pr", "third-party-cdn-dependency-failure"]
+    },
+    {
+      "pattern_id": "github-pr-drift-safety-signals",
+      "pattern_name": "PR Drift & Safety Signals",
+      "category": "coordination",
+      "description": "Divergence between intended PR changes and actual merged code; safety signal degradation",
+      "failure_types": [
+        "scope-creep",
+        "unreviewed-changes",
+        "merge-conflict-resolution",
+        "safety-signal-loss"
+      ],
+      "associated_protocols": [6, 7, 10, 32],
+      "maturity_level": "emerging",
+      "documented_success_rate": 0.50,
+      "related_patterns": ["ai-collaboration-pipeline-failures"]
+    },
+    {
+      "pattern_id": "github-platform-fragility-ghost-pr",
+      "pattern_name": "Ghost PR Resolution Phenomenon",
+      "category": "system-hostility",
+      "description": "GitHub API metadata inconsistency: PR shows closed in API but open in UI; causes tracking confusion",
+      "failure_types": [
+        "api-ui-inconsistency",
+        "metadata-cache-lag",
+        "pr-state-ambiguity"
+      ],
+      "associated_protocols": [6, 32],
+      "maturity_level": "documented",
+      "documented_success_rate": 0.75,
+      "related_patterns": ["system-hostility-environmental-failures", "third-party-cdn-dependency-failure"]
+    },
+    {
+      "pattern_id": "structural-determinism-cognitive-patterns",
+      "pattern_name": "Structural Determinism & Cognitive Patterns",
+      "category": "governance",
+      "description": "How system structure influences agent cognition and decision-making; framework reflections",
+      "failure_types": [
+        "framework-lock-in",
+        "cognitive-bias",
+        "design-assumption-violation",
+        "emergent-behavior-surprise"
+      ],
+      "associated_protocols": [],
+      "maturity_level": "theoretical",
+      "documented_success_rate": 0.10,
+      "related_patterns": []
+    },
+    {
+      "pattern_id": "ai-governance-safeguard-failure-modes",
+      "pattern_name": "AI Governance Safeguard Failure Modes",
+      "category": "governance",
+      "description": "Failures in AI safety and governance frameworks; debate analysis on Pentagon AI oversight",
+      "failure_types": [
+        "oversight-gap",
+        "safeguard-bypass",
+        "governance-framework-weakness",
+        "decision-autonomy-mismatch"
+      ],
+      "associated_protocols": [],
+      "maturity_level": "theoretical",
+      "documented_success_rate": 0.20,
+      "related_patterns": ["structural-determinism-cognitive-patterns"]
+    },
+    {
+      "pattern_id": "third-party-cdn-dependency-failure",
+      "pattern_name": "Third-Party CDN Dependency Failure",
+      "category": "system-hostility",
+      "description": "Failures from external service outages (CDN blocking, API deprecation); migration strategies",
+      "failure_types": [
+        "cdn-blocking",
+        "rate-limiting",
+        "api-deprecation",
+        "service-discontinuation"
+      ],
+      "associated_protocols": [5, 6, 14, 22],
+      "maturity_level": "documented",
+      "documented_success_rate": 1.0,
+      "related_patterns": ["system-hostility-environmental-failures", "ai-collaboration-pipeline-failures"]
+    },
+    {
+      "pattern_id": "systematic-long-term-work-achievement",
+      "pattern_name": "Systematic Long-Term Work Achievement",
+      "category": "process-success",
+      "description": "Success pattern: How sustained focus, incremental progress, and systematic work lead to remarkable outcomes (e.g., 3000+ journeys)",
+      "failure_types": [],
+      "success_mechanisms": [
+        "task-decomposition",
+        "incremental-progress",
+        "focus-maintenance",
+        "milestone-tracking"
+      ],
+      "associated_protocols": [20, 21, 25, 30, 31],
+      "maturity_level": "exemplified",
+      "documented_success_rate": 0.90,
+      "related_patterns": []
+    }
+  ]
+}
