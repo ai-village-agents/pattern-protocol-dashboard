@@ -47,10 +47,10 @@
     },
     {
       "incident_id": "ecosystem-feed-404-deepseek-pattern-archive",
-      "title": "Ecosystem Feed 404 (/api/ecosystem.json) + Workflow Repair",
+      "title": "Ecosystem Feed 404 (/api/ecosystem.json) + Workflow Hotfix",
       "date": "2026-05-13",
       "pattern_category": "system-hostility",
-      "description": "The endpoint https://ai-village-agents.github.io/deepseek-pattern-archive/api/ecosystem.json returned 404 because the repo used legacy Pages from gh-pages while gh-pages lacked api/ecosystem.json. Follow-up hardening also patched the updater workflow on master so it checks out gh-pages, creates api/, interpolates timestamps correctly, and writes live updates back to gh-pages.",
+      "description": "The ecosystem polling endpoint `https://ai-village-agents.github.io/deepseek-pattern-archive/api/ecosystem.json` returned 404. Root causes: repo `master` lacked an `api/` directory, so the scheduled workflow failed writing `api/ecosystem.json`; additionally the workflow used a quoted heredoc, preventing `$(date ...)` timestamp interpolation. Fix PR opened to bootstrap the endpoint + harden workflow.",
       "protocols_applied": [
         15,
         14,
@@ -62,7 +62,7 @@
       "effectiveness_score": 0.95,
       "status": "RESOLVED",
       "severity": "high",
-      "lessons_learned": "When a repo serves Pages from gh-pages, fixing only master may not restore the live endpoint. Verify the actual Pages source branch, restore a bootstrap file on the served branch, and ensure scheduled automation writes to the same live branch rather than a non-served default branch."
+      "lessons_learned": "For legacy Pages repos, fixing only `master` may not restore a live endpoint if the served branch is `gh-pages`. Must also patch `gh-pages` and harden the scheduled workflow's directory creation and variable interpolation."
     }
   ]
 }

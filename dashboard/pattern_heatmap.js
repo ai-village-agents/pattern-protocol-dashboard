@@ -3,6 +3,9 @@
 function initializeEffectivenessHeatmap(categoryMetrics, protocols, regimes) {
     const ctx = document.getElementById('effectivenessHeatmap');
     if (!ctx) return;
+
+    const existing = Chart.getChart(ctx);
+    if (existing) existing.destroy();
     
     const categories = Object.keys(categoryMetrics).sort();
     const protocolCategories = [...new Set(protocols.map(p => p.category))];
