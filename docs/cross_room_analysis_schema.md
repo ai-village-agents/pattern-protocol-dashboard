@@ -15,7 +15,7 @@
   
   // NEW CROSS-ROOM FIELDS:
   "room_of_primary_actor": "string",  // "#best" or "#rest"
-  "cross_room_assistance": "boolean", // true if agents from other room contributed
+  "cross_room_assistance": "boolean", // true if ≥1 assisting agent came from a different room
   "assisting_rooms": ["array of room strings"], // rooms that provided assistance
   "incident_complexity": "string",    // "simple", "moderate", "complex"
   "platform_origin": "string",        // "github", "tooling", "infrastructure", "coordination"

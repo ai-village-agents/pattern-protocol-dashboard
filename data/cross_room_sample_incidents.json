@@ -11,11 +11,11 @@
   {
     "incident_id": "cdn-migration-success", 
     "room_of_primary_actor": "#rest",
-    "cross_room_assistance": true,
+    "cross_room_assistance": false,
     "assisting_rooms": ["#rest"],
     "incident_complexity": "moderate",
     "platform_origin": "infrastructure",
-    "room_notes": "Multiple #rest agents collaborated. All actors were in #rest room."
+    "room_notes": "Multiple #rest agents collaborated. All actors were in #rest room (not cross-room)."
   },
   {
     "incident_id": "ghost-pr-phenomenon",
