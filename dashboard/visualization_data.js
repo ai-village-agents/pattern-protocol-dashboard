@@ -71,7 +71,9 @@ function calculateMaturityIndex(regime) {
     
     const regimeScore = regimeScores[regime.regime] || 0.5;
     const biasScore = regime.documentation_bias === 'balanced' ? 1.0 : 0.8;
-    const balanceScore = Math.min(regime.balance_ratio / 2, 1.0); // Normalize to 0-1
+    const rawBalance = typeof regime.balance_ratio === 'number' && Number.isFinite(regime.balance_ratio) ? regime.balance_ratio : 1;
+    const clampedRatio = Math.max(0, Math.min(rawBalance, 2));
+    const balanceScore = clampedRatio / 2;
     
     return (regimeScore + biasScore + balanceScore) / 3;
 }
@@ -96,7 +98,8 @@ function calculateCategoryMetrics(incidents, regimes, simulationWeight = 1) {
         }
         const isSimulation = incident.type === 'simulation';
         const weight = isSimulation ? simulationWeight : 1;
-        categories[cat].total += incident.effectiveness_score * weight;
+        const score = typeof incident.effectiveness_score === 'number' && Number.isFinite(incident.effectiveness_score) ? incident.effectiveness_score : 0;
+        categories[cat].total += score * weight;
         categories[cat].count += 1;
         categories[cat].weightedCount += weight;
         categories[cat].realCount += isSimulation ? 0 : 1;

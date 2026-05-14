@@ -11,10 +11,20 @@
         "coordination-loss",
         "async-timeout"
       ],
-      "associated_protocols": [5, 6, 7, 8, 15, 20],
+      "associated_protocols": [
+        5,
+        6,
+        7,
+        8,
+        15,
+        20
+      ],
       "maturity_level": "emerging",
       "documented_success_rate": 0.45,
-      "related_patterns": ["system-hostility-environmental-failures", "github-pr-drift-safety-signals"]
+      "related_patterns": [
+        "system-hostility-environmental-failures",
+        "github-pr-drift-safety-signals"
+      ]
     },
     {
       "pattern_id": "system-hostility-environmental-failures",
@@ -28,10 +38,22 @@
         "api-timeout",
         "resource-exhaustion"
       ],
-      "associated_protocols": [1, 2, 3, 6, 32, 36, 41, 42],
+      "associated_protocols": [
+        1,
+        2,
+        3,
+        6,
+        32,
+        36,
+        41,
+        42
+      ],
       "maturity_level": "mature",
       "documented_success_rate": 0.85,
-      "related_patterns": ["github-platform-fragility-ghost-pr", "third-party-cdn-dependency-failure"]
+      "related_patterns": [
+        "github-platform-fragility-ghost-pr",
+        "third-party-cdn-dependency-failure"
+      ]
     },
     {
       "pattern_id": "github-pr-drift-safety-signals",
@@ -44,10 +66,17 @@
         "merge-conflict-resolution",
         "safety-signal-loss"
       ],
-      "associated_protocols": [6, 7, 10, 32],
+      "associated_protocols": [
+        6,
+        7,
+        10,
+        32
+      ],
       "maturity_level": "emerging",
-      "documented_success_rate": 0.50,
-      "related_patterns": ["ai-collaboration-pipeline-failures"]
+      "documented_success_rate": 0.5,
+      "related_patterns": [
+        "ai-collaboration-pipeline-failures"
+      ]
     },
     {
       "pattern_id": "github-platform-fragility-ghost-pr",
@@ -59,10 +88,16 @@
         "metadata-cache-lag",
         "pr-state-ambiguity"
       ],
-      "associated_protocols": [6, 32],
+      "associated_protocols": [
+        6,
+        32
+      ],
       "maturity_level": "documented",
       "documented_success_rate": 0.75,
-      "related_patterns": ["system-hostility-environmental-failures", "third-party-cdn-dependency-failure"]
+      "related_patterns": [
+        "system-hostility-environmental-failures",
+        "third-party-cdn-dependency-failure"
+      ]
     },
     {
       "pattern_id": "structural-determinism-cognitive-patterns",
@@ -77,7 +112,7 @@
       ],
       "associated_protocols": [],
       "maturity_level": "theoretical",
-      "documented_success_rate": 0.10,
+      "documented_success_rate": 0.1,
       "related_patterns": []
     },
     {
@@ -93,8 +128,10 @@
       ],
       "associated_protocols": [],
       "maturity_level": "theoretical",
-      "documented_success_rate": 0.20,
-      "related_patterns": ["structural-determinism-cognitive-patterns"]
+      "documented_success_rate": 0.2,
+      "related_patterns": [
+        "structural-determinism-cognitive-patterns"
+      ]
     },
     {
       "pattern_id": "third-party-cdn-dependency-failure",
@@ -107,10 +144,18 @@
         "api-deprecation",
         "service-discontinuation"
       ],
-      "associated_protocols": [5, 6, 14, 22],
+      "associated_protocols": [
+        5,
+        6,
+        14,
+        22
+      ],
       "maturity_level": "documented",
       "documented_success_rate": 1.0,
-      "related_patterns": ["system-hostility-environmental-failures", "ai-collaboration-pipeline-failures"]
+      "related_patterns": [
+        "system-hostility-environmental-failures",
+        "ai-collaboration-pipeline-failures"
+      ]
     },
     {
       "pattern_id": "systematic-long-term-work-achievement",
@@ -124,10 +169,39 @@
         "focus-maintenance",
         "milestone-tracking"
       ],
-      "associated_protocols": [20, 21, 25, 30, 31],
+      "associated_protocols": [
+        20,
+        21,
+        25,
+        30,
+        31
+      ],
       "maturity_level": "exemplified",
-      "documented_success_rate": 0.90,
+      "documented_success_rate": 0.9,
       "related_patterns": []
+    },
+    {
+      "pattern_id": "shared-layout-css-leakage",
+      "pattern_name": "Shared Layout CSS Leakage Pattern",
+      "category": "system-hostility",
+      "description": "Frontend layout failure where global immersive CSS (e.g., body { overflow: hidden; }) leaks into analytics pages and silently breaks scrolling.",
+      "failure_types": [
+        "global-css-leakage",
+        "non-scrollable-analytics-page",
+        "layout-over-constraint"
+      ],
+      "associated_protocols": [
+        5,
+        6,
+        14,
+        22
+      ],
+      "maturity_level": "documented",
+      "documented_success_rate": 0.95,
+      "related_patterns": [
+        "system-hostility-environmental-failures",
+        "third-party-cdn-dependency-failure"
+      ]
     }
   ]
 }

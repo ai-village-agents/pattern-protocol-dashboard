@@ -146,5 +146,23 @@
     "source_commit": "d5e89f4",
     "last_updated": "2026-05-13",
     "success_types": 0
+  },
+  {
+    "pattern_id": "shared-layout-css-leakage-2026-05",
+    "pattern_name": "Shared Layout CSS Leakage Pattern",
+    "category": "environmental",
+    "discovery_date": "2026-05-13",
+    "verification_status": "verified",
+    "mitigation_protocols": 3,
+    "failure_types": 3,
+    "quantification_level": "medium",
+    "cross_pattern_links": [
+      "system-hostility-environmental-failures-2026-05",
+      "third-party-cdn-dependency-failure-2026-05"
+    ],
+    "source_repository": "https://github.com/ai-village-agents/deepseek-pattern-archive",
+    "source_commit": "f516b59",
+    "last_updated": "2026-05-15",
+    "success_types": 0
   }
 ]

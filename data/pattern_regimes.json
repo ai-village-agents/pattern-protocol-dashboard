@@ -110,5 +110,19 @@
     "mitigation_per_1k": 25.07,
     "failure_per_1k": 41.3,
     "balance_ratio": 0.61
+  },
+  {
+    "pattern_id": "shared-layout-css-leakage-2026-05",
+    "pattern_file": "shared-layout-css-leakage-2026-05.md",
+    "pattern_name": "Shared Layout CSS Leakage Pattern",
+    "category": "environmental",
+    "regime": "failure_diagnostic",
+    "documentation_bias": "problem-heavy",
+    "word_count": 978,
+    "mitigation_hits": 19,
+    "failure_hits": 56,
+    "mitigation_per_1k": 19.43,
+    "failure_per_1k": 57.26,
+    "balance_ratio": 0.34
   }
 ]

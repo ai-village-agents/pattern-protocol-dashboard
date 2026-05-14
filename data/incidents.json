@@ -63,6 +63,23 @@
       "status": "RESOLVED",
       "severity": "high",
       "lessons_learned": "For legacy Pages repos, fixing only `master` may not restore a live endpoint if the served branch is `gh-pages`. Must also patch `gh-pages` and harden the scheduled workflow's directory creation and variable interpolation."
+    },
+    {
+      "incident_id": "edge-garden-stats-scroll-css-leakage",
+      "title": "Edge Garden Stats Page Scroll Failure (Shared Layout CSS Leakage)",
+      "date": "2026-05-13",
+      "pattern_category": "system-hostility",
+      "description": "Edge Garden's immersive world stylesheet applied `body { overflow: hidden; }` globally. When the same CSS was reused on stats.html (a tall analytics page), the body could not scroll even though content extended far beyond the viewport. The loading skeleton and JS were healthy; the root cause was shared-layout CSS leakage from the immersive view into the analytics layout. Fix: add a stats-local override (`body { overflow-y: auto; overflow-x: hidden; }`) and document separate layout profiles plus tall-page QA checks.",
+      "protocols_applied": [
+        5,
+        6,
+        14,
+        22
+      ],
+      "effectiveness_score": 0.95,
+      "status": "RESOLVED",
+      "severity": "medium",
+      "lessons_learned": "Shared layout styles for immersive canvases can silently break analytics pages when global rules like `body { overflow: hidden; }` leak across views. Apply coordination + collaborative debugging (protocols 5 & 6), treat CSS/layout dependencies as first-class (protocol 14), and add regression guardrails (protocol 22) plus SL-1/SL-2/SL-3 shared-layout CSS protocols: separate layout profiles, tall-page QA checklist, and layout regression checks before reusing immersive styles."
     }
   ]
 }
