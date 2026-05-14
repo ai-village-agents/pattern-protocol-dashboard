@@ -1,20 +1,48 @@
 // Cross-room analysis visualization module
 // Extends dashboard with #best vs #rest comparative metrics
+// Updated by Claude Opus 4.5 + GPT-5.1 to use corrected data with window_status filtering
 
 const crossRoomAnalysis = {
     bestIncidents: [],
     restIncidents: [],
     crossRoomAssistanceIncidents: [],
+    allIncidents: [],
     
-    // Load cross-room annotated incidents
+    // Load cross-room annotated incidents - primary: corrected, fallback: original
     async loadAnnotatedIncidents() {
         try {
+            // Try corrected file first (with proper room assignments)
+            const response = await fetch('../data/cross_room_incidents_corrected.json');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.warn('Could not load corrected incidents, trying fallback:', error);
+        }
+        
+        try {
+            // Fallback to original annotated file
             const response = await fetch('../data/cross_room_incidents_annotated.json');
             return await response.json();
         } catch (error) {
             console.error('Error loading cross-room incidents:', error);
             return [];
         }
+    },
+    
+    // Filter to strict in-window incidents only (Days 405-407)
+    filterInWindowIncidents(incidents) {
+        return incidents.filter(inc => {
+            // Explicit in-window status
+            if (inc.window_status === 'in-window') return true;
+            // Exclude historical-context-only
+            if (inc.window_status === 'historical-context-only') return false;
+            // Handle context_only field
+            if (inc.context_only === true) return false;
+            if (inc.context_only === false) return true;
+            // Default: include if no status field (conservative)
+            return !inc.window_status;
+        });
     },
     
     // Partition incidents by room
@@ -26,7 +54,7 @@ const crossRoomAnalysis = {
     
     // Calculate room-specific effectiveness metrics
     calculateRoomMetrics(incidents, room) {
-        if (incidents.length === 0) {
+        if (!Array.isArray(incidents) || incidents.length === 0) {
             return {
                 room,
                 count: 0,
@@ -42,152 +70,114 @@ const crossRoomAnalysis = {
         const resolved = incidents.filter(i => i.status === 'resolved').length;
         const escalated = incidents.filter(i => i.status === 'escalated_to_human').length;
         
-        // Calculate complexity score
         const complexityScore = {
             'simple': 1,
             'moderate': 2,
             'complex': 3
         };
-        const avgComplexity = incidents.reduce((sum, i) => sum + (complexityScore[i.incident_complexity] || 2), 0) / incidents.length;
         
-        // Group by category
-        const byCategory = {};
-        incidents.forEach(incident => {
-            if (!byCategory[incident.pattern_category]) {
-                byCategory[incident.pattern_category] = {
-                    count: 0,
-                    effectiveness: 0,
-                    incidents: []
-                };
-            }
-            byCategory[incident.pattern_category].count += 1;
-            byCategory[incident.pattern_category].effectiveness += incident.effectiveness || 0;
-            byCategory[incident.pattern_category].incidents.push(incident.incident_id);
-        });
+        const avgComplexity = incidents.reduce((sum, i) => 
+            sum + (complexityScore[i.incident_complexity] || 2), 0) / incidents.length;
         
-        // Calculate average effectiveness
-        const avgEffectiveness = incidents.reduce((sum, i) => sum + (i.effectiveness || 0), 0) / incidents.length;
+        const avgEffectiveness = incidents.reduce((sum, i) => 
+            sum + (typeof i.effectiveness === 'number' ? i.effectiveness : 0), 0) / incidents.length;
         
-        // Filter out null resolution times
-        const resolutionTimes = incidents.filter(i => i.resolution_time_minutes).map(i => i.resolution_time_minutes);
-        const avgResolutionTime = resolutionTimes.length > 0 
-            ? resolutionTimes.reduce((sum, t) => sum + t, 0) / resolutionTimes.length 
+        const resolvedWithTime = incidents.filter(i => 
+            i.status === 'resolved' && typeof i.resolution_time_minutes === 'number');
+        const avgResolutionTime = resolvedWithTime.length > 0
+            ? resolvedWithTime.reduce((sum, i) => sum + i.resolution_time_minutes, 0) / resolvedWithTime.length
             : 0;
+        
+        // Count by category
+        const incidentsByCategory = {};
+        incidents.forEach(i => {
+            const cat = i.pattern_category || 'unknown';
+            incidentsByCategory[cat] = (incidentsByCategory[cat] || 0) + 1;
+        });
         
         return {
             room,
             count: incidents.length,
-            avgEffectiveness,
-            avgResolutionTime,
+            avgEffectiveness: Math.round(avgEffectiveness * 100) / 100,
+            avgResolutionTime: Math.round(avgResolutionTime),
             totalResolved: resolved,
             totalEscalated: escalated,
-            avgComplexity,
-            incidentsByCategory: byCategory
+            avgComplexity: Math.round(avgComplexity * 100) / 100,
+            incidentsByCategory
         };
     },
     
     // Calculate cross-room assistance statistics
     calculateCrossRoomStats(incidents) {
-        const total = incidents.length;
-        const crossRoom = incidents.filter(i => i.cross_room_assistance === true).length;
-        const sameRoom = total - crossRoom;
+        if (!Array.isArray(incidents) || incidents.length === 0) {
+            return {
+                totalIncidents: 0,
+                crossRoomCount: 0,
+                crossRoomRate: 0,
+                assistancePatterns: {}
+            };
+        }
         
-        // Analyze which rooms assist which
+        const crossRoom = incidents.filter(i => i.cross_room_assistance === true);
+        
+        // Count assistance patterns (de-duplicated)
         const assistancePatterns = {};
-        incidents.forEach(incident => {
-            if (incident.cross_room_assistance && incident.assisting_rooms && incident.assisting_rooms.length > 0) {
-                const key = `${incident.room_of_primary_actor} ← ${incident.assisting_rooms.join(', ')}`;
-                if (!assistancePatterns[key]) {
-                    assistancePatterns[key] = {
-                        count: 0,
-                        incidents: [],
-                        avgEffectiveness: 0
-                    };
-                }
-                assistancePatterns[key].count += 1;
-                assistancePatterns[key].incidents.push(incident.incident_id);
-                assistancePatterns[key].avgEffectiveness += (incident.effectiveness || 0);
-            }
-        });
-        
-        // Calculate averages
-        Object.keys(assistancePatterns).forEach(key => {
-            const pattern = assistancePatterns[key];
-            pattern.avgEffectiveness = pattern.avgEffectiveness / pattern.count;
+        crossRoom.forEach(i => {
+            const rooms = [...new Set(i.assisting_rooms || [])];
+            const pattern = `${i.room_of_primary_actor} ← ${rooms.join(', ') || 'unknown'}`;
+            assistancePatterns[pattern] = (assistancePatterns[pattern] || 0) + 1;
         });
         
         return {
-            totalIncidents: total,
-            crossRoomAssistanceCount: crossRoom,
-            sameRoomOnlyCount: sameRoom,
-            crossRoomAssistanceRate: total > 0 ? (crossRoom / total * 100).toFixed(2) : 0,
+            totalIncidents: incidents.length,
+            crossRoomCount: crossRoom.length,
+            crossRoomRate: Math.round((crossRoom.length / incidents.length) * 100),
             assistancePatterns
         };
     },
     
-    // Generate comparative analysis report
+    // Generate comparative report
     async generateComparativeReport() {
-        const incidents = await this.loadAnnotatedIncidents();
+        const allIncidents = await this.loadAnnotatedIncidents();
+        // Filter to strict in-window incidents only
+        const incidents = this.filterInWindowIncidents(allIncidents);
+        this.allIncidents = incidents;
         this.partitionByRoom(incidents);
         
         const bestMetrics = this.calculateRoomMetrics(this.bestIncidents, '#best');
         const restMetrics = this.calculateRoomMetrics(this.restIncidents, '#rest');
         const crossRoomStats = this.calculateCrossRoomStats(incidents);
         
+        // Generate key findings text
+        const keyFindings = [];
+        
+        if (bestMetrics.count === 0 && restMetrics.count > 0) {
+            keyFindings.push("All in-window operational incidents were handled by #rest; #best had no platform incidents in this window.");
+        } else if (bestMetrics.count > 0 && restMetrics.count > 0) {
+            const ratio = restMetrics.count / (bestMetrics.count || 1);
+            keyFindings.push(`#rest handled ${ratio.toFixed(1)}x more incidents than #best (${restMetrics.count} vs ${bestMetrics.count}).`);
+        }
+        
+        keyFindings.push(`Incident distribution: #rest ${restMetrics.count} (${Math.round(restMetrics.count / (incidents.length || 1) * 100)}%), #best ${bestMetrics.count} (${Math.round(bestMetrics.count / (incidents.length || 1) * 100)}%).`);
+        keyFindings.push(`${crossRoomStats.crossRoomRate}% of in-window incidents involved cross-room assistance${crossRoomStats.crossRoomCount === 0 ? ' (all entries are same-room only)' : ''}.`);
+        
+        if (restMetrics.avgEffectiveness > 0) {
+            keyFindings.push(`#rest average effectiveness: ${(restMetrics.avgEffectiveness * 100).toFixed(0)}%.`);
+        }
+        
         return {
-            timestamp: new Date().toISOString(),
-            summary: {
-                bestRoom: bestMetrics,
-                restRoom: restMetrics,
-                crossRoomStats: crossRoomStats
-            },
-            comparativeMetrics: {
-                effectivenessRatio: bestMetrics.avgEffectiveness / (restMetrics.avgEffectiveness || 1),
-                resolutionTimeRatio: restMetrics.avgResolutionTime / (bestMetrics.avgResolutionTime || 1),
-                bestIncidentRate: (bestMetrics.count / incidents.length * 100).toFixed(2),
-                restIncidentRate: (restMetrics.count / incidents.length * 100).toFixed(2),
-                crossRoomAssistanceRate: crossRoomStats.crossRoomAssistanceRate
-            },
-            keyFindings: this.generateKeyFindings(bestMetrics, restMetrics, crossRoomStats)
+            totalInWindowIncidents: incidents.length,
+            totalAllIncidents: allIncidents.length,
+            historicalExcluded: allIncidents.length - incidents.length,
+            bestMetrics,
+            restMetrics,
+            crossRoomStats,
+            keyFindings
         };
-    },
-    
-    // Generate narrative key findings
-    generateKeyFindings(bestMetrics, restMetrics, crossRoomStats) {
-        const findings = [];
-        
-        // Effectiveness finding
-        if (bestMetrics.avgEffectiveness > restMetrics.avgEffectiveness) {
-            const diff = ((bestMetrics.avgEffectiveness - restMetrics.avgEffectiveness) * 100).toFixed(1);
-            findings.push(`#best room shows ${diff}% higher average effectiveness (${(bestMetrics.avgEffectiveness * 100).toFixed(1)}% vs ${(restMetrics.avgEffectiveness * 100).toFixed(1)}%)`);
-        } else {
-            const diff = ((restMetrics.avgEffectiveness - bestMetrics.avgEffectiveness) * 100).toFixed(1);
-            findings.push(`#rest room shows ${diff}% higher average effectiveness (${(restMetrics.avgEffectiveness * 100).toFixed(1)}% vs ${(bestMetrics.avgEffectiveness * 100).toFixed(1)}%)`);
-        }
-        
-        // Incident distribution
-        findings.push(`#best: ${bestMetrics.count} incidents (${(bestMetrics.count / (bestMetrics.count + restMetrics.count) * 100).toFixed(1)}%), #rest: ${restMetrics.count} incidents`);
-        
-        // Resolution efficiency
-        if (bestMetrics.avgResolutionTime > 0 && restMetrics.avgResolutionTime > 0) {
-            const faster = bestMetrics.avgResolutionTime < restMetrics.avgResolutionTime ? '#best' : '#rest';
-            findings.push(`${faster} room resolves incidents faster on average`);
-        }
-        
-        // Cross-room collaboration
-        findings.push(`${crossRoomStats.crossRoomAssistanceRate}% of incidents involved cross-room assistance`);
-        
-        // Complexity handling
-        if (bestMetrics.avgComplexity !== restMetrics.avgComplexity) {
-            const moreMature = bestMetrics.avgComplexity > restMetrics.avgComplexity ? '#best' : '#rest';
-            findings.push(`${moreMature} room handles higher complexity incidents on average`);
-        }
-        
-        return findings;
     }
 };
 
-// Export for use in HTML
+// Export for use in dashboard
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = crossRoomAnalysis;
 }
