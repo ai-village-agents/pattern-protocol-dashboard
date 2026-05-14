@@ -14,7 +14,8 @@
     "effectiveness": 0,
     "status": "escalated_to_human",
     "annotation_confidence": "high",
-    "room_notes": "Gemini 2.5 Pro is in #rest. Tool failure is environmental, no cross-room assistance available."
+    "room_notes": "Gemini 2.5 Pro is in #rest. Tool failure is environmental, no cross-room assistance available.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "universe-bootstrap-deletion",
@@ -27,11 +28,14 @@
     "room_of_primary_actor": "#best",
     "primary_actor": "GPT-5.5",
     "cross_room_assistance": true,
-    "assisting_rooms": ["#rest"],
+    "assisting_rooms": [
+      "#rest"
+    ],
     "effectiveness": 0.7,
     "status": "resolved",
     "annotation_confidence": "low",
-    "room_notes": "Historical context. GPT-5.5 and Gemini 3.1 Pro (#best) resolved. Pre-Day 405 incident discussed in retrospect."
+    "room_notes": "Historical context. GPT-5.5 and Gemini 3.1 Pro (#best) resolved. Pre-Day 405 incident discussed in retrospect.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "universe-stray-data-block-syntaxerror",
@@ -48,7 +52,8 @@
     "effectiveness": 0.8,
     "status": "resolved",
     "annotation_confidence": "low",
-    "room_notes": "Historical context. GPT-5.5 (#best) added validator guard. Pre-Day 405 incident."
+    "room_notes": "Historical context. GPT-5.5 (#best) added validator guard. Pre-Day 405 incident.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "universe-unsafe-prs-blocked",
@@ -61,11 +66,14 @@
     "room_of_primary_actor": "#rest",
     "primary_actor": "Gemini 2.5 Pro",
     "cross_room_assistance": true,
-    "assisting_rooms": ["#best"],
+    "assisting_rooms": [
+      "#best"
+    ],
     "effectiveness": 0.9,
     "status": "resolved",
     "annotation_confidence": "low",
-    "room_notes": "Historical context. Gemini 2.5 Pro (#rest) submitted. GPT-5.5 (#best) provided safe alternative."
+    "room_notes": "Historical context. Gemini 2.5 Pro (#rest) submitted. GPT-5.5 (#best) provided safe alternative.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "universe-wrong-array-insertion",
@@ -82,7 +90,8 @@
     "effectiveness": 1.0,
     "status": "resolved",
     "annotation_confidence": "low",
-    "room_notes": "Historical context. Kimi K2.6 (#best) detected and fixed."
+    "room_notes": "Historical context. Kimi K2.6 (#best) detected and fixed.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "universe-teleport-filter-crash",
@@ -99,7 +108,8 @@
     "effectiveness": 0.95,
     "status": "resolved",
     "annotation_confidence": "high",
-    "room_notes": "GPT-5.2 (#rest) diagnosed and opened PR #615. GPT-5.4 (#rest) verified. GPT-5 (#rest) merged. All #rest agents."
+    "room_notes": "GPT-5.2 (#rest) diagnosed and opened PR #615. GPT-5.4 (#rest) verified. GPT-5 (#rest) merged. All #rest agents.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "github-pages-stale-deploy",
@@ -116,7 +126,8 @@
     "effectiveness": 1.0,
     "status": "resolved",
     "annotation_confidence": "high",
-    "room_notes": "GPT-5.4, GPT-5.2, GPT-5.1 all in #rest. Quick coordination, no cross-room involvement."
+    "room_notes": "GPT-5.4, GPT-5.2, GPT-5.1 all in #rest. Quick coordination, no cross-room involvement.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "githack-cdn-403-outage",
@@ -133,7 +144,8 @@
     "effectiveness": 0.85,
     "status": "resolved",
     "annotation_confidence": "high",
-    "room_notes": "GPT-5.2 (#rest) detected. Claude Haiku 4.5, Opus 4.5, Opus 4.6 (all #rest) collaborated. All #rest coordination."
+    "room_notes": "GPT-5.2 (#rest) detected. Claude Haiku 4.5, Opus 4.5, Opus 4.6 (all #rest) collaborated. All #rest coordination.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "deepseek-ecosystem-feed-404",
@@ -150,7 +162,8 @@
     "effectiveness": 0.95,
     "status": "resolved",
     "annotation_confidence": "high",
-    "room_notes": "GPT-5.2 (#rest) opened fix PR, GPT-5.4 (#rest) pushed gh-pages fix. Both #rest agents."
+    "room_notes": "GPT-5.2 (#rest) opened fix PR, GPT-5.4 (#rest) pushed gh-pages fix. Both #rest agents.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "ghost-pr-614-phenomenon",
@@ -167,7 +180,8 @@
     "effectiveness": 0.9,
     "status": "resolved",
     "annotation_confidence": "high",
-    "room_notes": "GPT-5.2, GPT-5.4 (both #rest) detected. Claude Opus 4.5 (#rest) created replacement. All #rest coordination."
+    "room_notes": "GPT-5.2, GPT-5.4 (both #rest) detected. Claude Opus 4.5 (#rest) created replacement. All #rest coordination.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "opus-46-world-structural-corruption",
@@ -184,7 +198,8 @@
     "effectiveness": 1.0,
     "status": "resolved",
     "annotation_confidence": "high",
-    "room_notes": "Claude Opus 4.6 (#rest) detected and resolved solo. No cross-room help needed."
+    "room_notes": "Claude Opus 4.6 (#rest) detected and resolved solo. No cross-room help needed.",
+    "incident_type": "platform_operational"
   },
   {
     "incident_id": "session-5-task-5-contamination",
@@ -201,6 +216,61 @@
     "effectiveness": 0,
     "status": "unresolved_experiment_failure",
     "annotation_confidence": "high",
-    "room_notes": "Claude Sonnet 4.5 (#rest, Proposer) leaked. GPT-5.1 (#rest, Pair) withdrew. Gemini 2.5 Pro (#rest, Skeptic) contaminated. All #rest."
+    "room_notes": "Claude Sonnet 4.5 (#rest, Proposer) leaked. GPT-5.1 (#rest, Pair) withdrew. Gemini 2.5 Pro (#rest, Skeptic) contaminated. All #rest.",
+    "incident_type": "coordination_failure"
+  },
+  {
+    "incident_id": "codex-backend-contamination",
+    "day": 407,
+    "window_status": "in-window",
+    "title": "codex-backend Contamination in Evaluation Pipelines",
+    "description": "Claude Opus 4.7 identified contamination in the codex-based evaluation backend that risked leaking information across experimental conditions. The issue was isolated, contaminated outputs were discarded, and additional guards were added around backend configuration and dataset routing.",
+    "pattern_category": "research-integrity",
+    "incident_complexity": "complex",
+    "room_of_primary_actor": "#best",
+    "primary_actor": "Claude Opus 4.7",
+    "cross_room_assistance": false,
+    "assisting_rooms": [],
+    "effectiveness": 0.9,
+    "status": "resolved",
+    "annotation_confidence": "medium",
+    "room_notes": "Research-integrity incident handled within #best. Claude Opus 4.7 detected the contamination and led mitigation without needing #rest assistance.",
+    "incident_type": "research_integrity"
+  },
+  {
+    "incident_id": "synthetic-scoring-contamination",
+    "day": 407,
+    "window_status": "in-window",
+    "title": "Synthetic Scoring Contamination in Evaluator Pipeline",
+    "description": "GPT-5.5 detected that synthetic scoring heuristics were biasing evaluation results in ways that conflated model performance with scoring artefacts. The team adjusted the scoring pipeline and re-ran affected analyses.",
+    "pattern_category": "research-integrity",
+    "incident_complexity": "complex",
+    "room_of_primary_actor": "#best",
+    "primary_actor": "GPT-5.5",
+    "cross_room_assistance": false,
+    "assisting_rooms": [],
+    "effectiveness": 0.85,
+    "status": "resolved",
+    "annotation_confidence": "medium",
+    "room_notes": "Research-integrity incident handled within #best. GPT-5.5 surfaced the issue and coordinated scoring adjustments and re-analysis.",
+    "incident_type": "research_integrity"
+  },
+  {
+    "incident_id": "paraphrase-length-validation-failures",
+    "day": 406,
+    "window_status": "in-window",
+    "title": "Paraphrase Length Validation Failures in Evaluation Data",
+    "description": "Gemini 3.1 Pro found that paraphrase-generation outputs were occasionally violating length and format constraints, leading to invalid examples entering the evaluator pipeline. Validation checks were tightened and the affected batches were regenerated.",
+    "pattern_category": "research-integrity",
+    "incident_complexity": "moderate",
+    "room_of_primary_actor": "#best",
+    "primary_actor": "Gemini 3.1 Pro",
+    "cross_room_assistance": false,
+    "assisting_rooms": [],
+    "effectiveness": 0.9,
+    "status": "resolved",
+    "annotation_confidence": "medium",
+    "room_notes": "Research-integrity incident in #best. Gemini 3.1 Pro repaired validation logic and regenerated affected paraphrase batches without cross-room help.",
+    "incident_type": "research_integrity"
   }
 ]

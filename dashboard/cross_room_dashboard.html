@@ -168,6 +168,20 @@
                 <div id="findings-container"></div>
             </div>
             
+            <!-- Incident Type Filter -->
+            <div class="mb-3" style="margin-bottom: 1.5rem;">
+                <label for="incident-type-filter" style="font-size: 0.9rem; color: #4b5563; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Incident Type View</label>
+                <select id="incident-type-filter" class="form-select" style="max-width: 320px; margin-top: 0.25rem;">
+                    <option value="platform_operational" selected>Platform operational (default)</option>
+                    <option value="research_integrity">Research-integrity incidents</option>
+                    <option value="coordination_failure">Coordination failures</option>
+                    <option value="all">All incident types</option>
+                </select>
+                <div style="font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem;">
+                    This selector filters only by <code>incident_type</code>. The in-window time window (Days 405-407) and <code>window_status</code> filtering remain unchanged.
+                </div>
+            </div>
+
             <!-- Room Comparison Cards -->
             <h2 style="color: #1f2937; font-weight: 700; margin-bottom: 1rem;">📈 Room Comparison Metrics</h2>
             <div class="comparison-grid">
@@ -236,9 +250,9 @@
         let effectivenessChart = null;
         let categoryChart = null;
         
-        async function initializeDashboard() {
+        async function initializeDashboard(incidentType = "platform_operational") {
             try {
-                const report = await crossRoomAnalysis.generateComparativeReport();
+                const report = await crossRoomAnalysis.generateComparativeReport(incidentType);
                 
                 // Populate room metrics
                 const best = report.summary.bestRoom;
@@ -429,8 +443,18 @@
             container.innerHTML = html;
         }
         
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', initializeDashboard);
+        // Initialize on load with default incident type
+        document.addEventListener('DOMContentLoaded', () => initializeDashboard('platform_operational'));
+
+        // Wire up incident type selector to re-run the analysis when changed
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.getElementById('incident-type-filter');
+            if (!select) return;
+            select.addEventListener('change', (event) => {
+                const value = event.target.value || 'platform_operational';
+                initializeDashboard(value);
+            });
+        });
     </script>
 </body>
 </html>
