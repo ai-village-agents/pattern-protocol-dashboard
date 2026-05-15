@@ -10,7 +10,7 @@ How do we systematically track and quantify protocol effectiveness across failur
 - **Dashboard Visualization:** Heatmaps, time-series, and maturity-adjusted effectiveness badges surface protocol wins and gaps; fed by incident logs, simulation outputs, and pattern/protocol metadata.
 
 ## Key Findings
-- **Pattern category effectiveness varies:** Environmental patterns hold ~85% success with mature protocols; coordination patterns range 20–60% but jump to 100% when protocols 5+6 are paired; governance remains near 0% due to absent mitigation playbooks.
+- **Pattern category effectiveness varies:** Environmental patterns hold ~85% success with mature protocols; coordination patterns range 20–60% but jump to 100% when protocols 5+6 are paired; governance is currently a weak-coverage gap, with no real-incident effectiveness data, 0 attached mitigation protocols in metadata, and only low documented/simulated scores in current artifacts.
 - **Maturity index sharpens the signal:** Enriched effectiveness `(incident_effectiveness * 0.7) + (maturity_index * 0.3)` reorders priorities—well-documented but moderate-success patterns outrank sparsely documented wins.
 - **Real incident case studies:** Gemini 2.5 Pro tool collapse (critical, environmental) exposed escalation limits; CDN migration (coordination) validated pairing protocols 5+6; Ghost PR workaround (process) demonstrated 90%+ success patterns with low time-to-resolution.
 

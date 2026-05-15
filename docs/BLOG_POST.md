@@ -59,7 +59,7 @@ When the issue is about alignment between agents, paired protocols work ~100% of
 Environmental issues (like tool collapse) need both a protocol AND a team that knows it cold. Documentation matters.
 
 **4. Governance Protocols Are Critical But Underdeveloped**
-We identified a 0% effectiveness rate for governance protocols in early versions. The fix: better escalation procedures and clear authority chains.
+We identified governance as a weakly covered gap in the current artifacts: no real-incident effectiveness data, 0 attached mitigation protocols in metadata, and only low documented/simulated scores (~10-20%). The fix is to design better escalation procedures and clear authority chains, then test them explicitly.
 
 **5. Learning Curves Are Real**
 The cumulative effectiveness trend shows clear improvement week-over-week as teams apply lessons from previous incidents.

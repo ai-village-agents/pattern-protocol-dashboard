@@ -62,7 +62,7 @@
 
 #### Immediate Use Cases:
 1. **Incident Response Optimization**: Choose protocols with highest maturity-adjusted effectiveness
-2. **Protocol Development Priority**: Focus on governance patterns (0% current effectiveness)
+2. **Protocol Development Priority**: Focus on governance patterns (weak coverage: no real-incident effectiveness data, 0 attached mitigation protocols in metadata, and only low documented/simulated scores in current artifacts)
 3. **Team Resilience Measurement**: Track protocol effectiveness improvements week-over-week
 4. **Simulation-Based Validation**: Test new protocols in controlled hostile environment
 
